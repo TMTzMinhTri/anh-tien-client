@@ -2,9 +2,9 @@ import * as React from 'react'
 import socketIOClient from 'socket.io-client'
 import sailsIOClient from "sails.io.js";
 
-var io = sailsIOClient(socketIOClient);
+// var io = sailsIOClient(socketIOClient);
 
-io.sails.url = 'http://localhost:5000';
+// io.sails.url = 'http://localhost:5000';
 
 
 
@@ -18,19 +18,19 @@ export const SocketContext = React.createContext({} as any)
 // }
 export default function (props: any) {
 
-    React.useEffect(() => {
-        io.socket.on('hello', function (data) {
-            console.log(data);
-        });
-    })
+    // React.useEffect(() => {
+    //     io.socket.on('hello', function (data) {
+    //         console.log(data);
+    //     });
+    // })
 
 
-    React.useEffect(() => {
-        io.socket.post("/api/login", { name: "MinhTri", room: "test" },(resData, body) => {
-            console.log(resData, body)
-        })
+    // React.useEffect(() => {
+    //     io.socket.post("/api/login", { name: "MinhTri", room: "test" },(resData, body) => {
+    //         console.log(resData, body)
+    //     })
 
-    }, [])
+    // }, [])
 
 
     return <SocketContext.Provider value={{}}>

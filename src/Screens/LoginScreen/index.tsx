@@ -16,7 +16,7 @@ export const LoginScreen: React.FC<{}> = () => {
     const that = React.useRef(null)
     let history = useHistory();
     let location = useLocation();
-    let { from } = location.state || { from: { pathname: "/" } };
+    let from  = location.state || { from: { pathname: "/" } };
 
     const [userInput, setUserInput] = React.useState<IinputForm>({ password: '', email: "" })
     const [error, setError] = React.useState<string>("")

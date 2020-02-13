@@ -1,11 +1,7 @@
 import React from 'react';
 import SocketContextProvider from "../Socket";
 import { Container, Row, Col } from "reactstrap";
-import { ListFriend } from "./ListFriend";
-import { Conversation } from "./Conversation";
-
-
-
+import ListFriend from "./ListFriend";
 
 export const MainScreen: React.FC = () => {
 
@@ -18,16 +14,18 @@ export const MainScreen: React.FC = () => {
     }
 
     return <SocketContextProvider>
-        <Container>
-            <Row>
-                <Col lg="3">
+        <Container fluid >
+            {/* <Row> */}
+                {/* <Col lg="12"> */}
                     <ListFriend />
-                </Col>
-                <Col lg="9">
+                {/* </Col> */}
+                {/* <Col lg="9">
                     <Conversation />
-                </Col>
-            </Row>
+                </Col> */}
+            {/* </Row> */}
         </Container>
     </SocketContextProvider>
 }
+
+
 

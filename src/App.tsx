@@ -13,6 +13,8 @@ const App: React.FC = () => {
       <Switch>
         <Route path="/login" exact={true} component={Screens.LoginScreen} />
         <Route path="/" exact={true} component={Screens.MainScreen} />
+        <Route path="/list-user" exact={true} component={Screens.ListUserScreen} />
+        <Route path="/list-user/:userid" exact={true} component={Screens.DetailsUserScreen} />
       </Switch>
     </Router>
   </LayoutContextProvider>

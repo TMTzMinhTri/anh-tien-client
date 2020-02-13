@@ -1,3 +1,4 @@
+
 // import db from "../utils/db"
 
 export interface IResponse<T> {
@@ -81,6 +82,21 @@ export const Api = {
                 resolve(result.json())
             }).catch(e => reject(e))
         }) as Promise<IResponse<T>>
+    },
+    async POST_WITH_FORMDATA<T>(path: string, body: FormData) {
+        const url = `${this.url}${path}`
+        return new Promise((resolve, reject) => {
+            fetch(url, {
+                method: "POST",
+                body: body,
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+                .then(result => resolve(result.json()))
+                .catch(e => reject(e))
+        }) as Promise<IResponse<T>>
+
     }
 }
 
