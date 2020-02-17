@@ -1,6 +1,6 @@
 import * as React from 'react'
-import socketIOClient from 'socket.io-client'
-import sailsIOClient from "sails.io.js";
+// import socketIOClient from 'socket.io-client'
+// import sailsIOClient from "sails.io.js";
 
 // var io = sailsIOClient(socketIOClient);
 

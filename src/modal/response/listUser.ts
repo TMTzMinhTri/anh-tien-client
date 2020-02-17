@@ -18,6 +18,7 @@ export interface IResponseListUser {
 interface Ihistory {
     status: boolean,
     note: string,
+    total: number,
     created_at: Date,
     updated_at: Date
 }

@@ -25,3 +25,8 @@ export const getDetailBorrower = (user_id: string | undefined) => {
     const path = `/api/getDetail/${user_id}`
     return Api.Get<IResponseListUser>(path)
 }
+
+export const payTheMoney = (user_id: string, body: { total: number, note: string }) => {
+    const path = `/api/pay-the-money/${user_id}`
+    return Api.POST<any>(path, body)
+}

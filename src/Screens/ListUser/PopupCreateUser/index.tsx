@@ -2,7 +2,10 @@ import * as React from 'react'
 import 'react-dropzone-uploader/dist/styles.css'
 // import Dropzone, { ILayoutProps, IPreviewProps, IDropzoneProps, IFileWithMeta } from "react-dropzone-uploader";
 // import classnames from "classnames";
-import { Progress, Modal, ModalHeader, ModalBody, Form, Row, Col, FormGroup, Label, ModalFooter, Button, Input } from 'reactstrap';
+import {
+    // Progress,
+    Modal, ModalHeader, ModalBody, Form, Row, Col, FormGroup, Label, ModalFooter, Button, Input
+} from 'reactstrap';
 import { IResponseAddress } from '../../../modal/response/address';
 import { getListDistrict, getListWard, createNewBorrower } from '../../../Api/Service/borrower';
 import Cleave from 'cleave.js/react';

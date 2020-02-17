@@ -2,7 +2,7 @@ import * as React from "react";
 import { getListBorrower } from "../../Api/Service/borrower";
 import { IResponseListUser } from "../../modal/response/listUser";
 import { UserItem } from "./UserItem";
-import { Row, Container, Input, Button, Col, } from "reactstrap";
+import { Row, Container } from "reactstrap";
 import { Header } from './Header'
 
 export const ListUserScreen: React.FC<{}> = () => {
@@ -23,8 +23,8 @@ export const ListUserScreen: React.FC<{}> = () => {
 
 
     return <ListUserScreenContext.Provider value={{ CreateSuccessUser }}>
+        <Header setOpenModalCreate={setOpenModalCreate} openModalCreate={openModalCreate} />
         <Container fluid>
-            <Header setOpenModalCreate={setOpenModalCreate} openModalCreate={openModalCreate} />
             <Row className="mt-4">
                 {listUser.length > 0 && listUser.map((user, index) => <UserItem user={user} key={index} />)}
             </Row>

@@ -32,6 +32,7 @@ export const Api = {
     },
     async POST<T>(path: string, body: any) {
         const url = `${this.url}${path}`
+        console.log(body)
         // const token = await db.table('authToken').toArray()
         return new Promise((resolve, reject) => {
             fetch(url, {
