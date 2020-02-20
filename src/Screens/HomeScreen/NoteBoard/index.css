@@ -5,6 +5,7 @@
     border: 1px solid #c3c3c3;
     border-radius: 5px;
     box-shadow: 1px 1px 1px 2px #9a9a9a;
+    height: calc(100% - 36px);
 }
 .note-board__title{
     display: flex;
@@ -19,6 +20,8 @@
     border: 1px solid;
     border-top: 0;
     border-radius: 5px;
+    height: 100%;
     border-top-right-radius: 0;
     border-top-left-radius: 0;
+    overflow: scroll;
 }

@@ -1,7 +1,6 @@
 import * as React from "react";
 import "./index.css";
 import { NoteBoard } from "./NoteBoard";
-
 const notes = [
   {
     id: 1,
@@ -14,35 +13,18 @@ const notes = [
     name: "baseball",
     price: 2000000,
     note: "test"
-  },
-  {
-    id: 3,
-    name: "basketball",
-    price: 2000000,
-    note: "test"
-  },
-  {
-    id: 4,
-    name: "iPod Touch",
-    price: 2000000,
-    note: "test"
-  },
-  {
-    id: 5,
-    name: "iPhone 5",
-    price: 2000000,
-    note: "test"
-  },
-  {
-    id: 6,
-    name: "nexus 7",
-    price: 2000000,
-    note: "test"
   }
 ];
+interface IHomeScreenContext {
+  handleUserInput: Function;
+  createNewRow: Function;
+}
+
+export const HomeScreenContext = React.createContext({} as IHomeScreenContext);
 
 export const HomeScreen: React.SFC<any> = () => {
   const [listHistory, setListHistory] = React.useState(notes);
+  const [date, setDate] = React.useState(new Date());
 
   const createNewRow = () => {
     let product = {
@@ -51,20 +33,42 @@ export const HomeScreen: React.SFC<any> = () => {
       price: 0,
       note: ""
     };
-    setListHistory([...listHistory, product]);
+    setListHistory([product, ...listHistory]);
+  };
+
+  const handleUserInput = (value, name, id) => {
+    let item = {
+      id: id,
+      name: name,
+      value: value
+    };
+    let products = [...listHistory];
+    let newProducts = products.map(function(product) {
+      for (let key in product) {
+        if (key == item.name && product.id == item.id) {
+          product[key] = item.value;
+        }
+      }
+      return product;
+    });
+    setListHistory(newProducts);
   };
 
   return (
-    <div className="home-screen">
-      <div className="side-bar">
-        <ul>
-          <li>asdasd</li>
-        </ul>
+    <HomeScreenContext.Provider value={{ handleUserInput, createNewRow }}>
+      <div className="home-screen">
+        <div className="side-bar">
+          <ul>
+            <li>Sổ ngày</li>
+            <li>Sổ cái</li>
+            <li>danh sách người mượn</li>
+          </ul>
+        </div>
+        <div className="note-board">
+          <div className="note-board-title">Sổ ngày</div>
+          <NoteBoard listHistory={listHistory} date={date} />
+        </div>
       </div>
-      <div className="note-board">
-        <button onClick={createNewRow}>Add</button>
-        <NoteBoard listHistory={listHistory} />
-      </div>
-    </div>
+    </HomeScreenContext.Provider>
   );
 };
