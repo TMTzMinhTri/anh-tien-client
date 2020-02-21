@@ -8,19 +8,11 @@ export const Control: React.FC<any> = ({ date }) => {
 
   return (
     <Row className="mb-2">
-      <Col md={5}>
-        {/* <InputGroup>
-          <Input type="text" placeholder="Nhập tên người cần tìm" />
-          <Button>Tìm</Button>
-        </InputGroup> */}
-      </Col>
       <Col md={6}>
-        <DatePicker selected={date} />
-      </Col>
-      <Col md={1}>
-        <Button color="info" onClick={() => createNewRow()}>
-          Tạo mới
-        </Button>
+        <DatePicker
+          selected={date}
+          onChange={(value: Date) => console.log(new Date(value).toISOString())}
+        />
       </Col>
     </Row>
   );

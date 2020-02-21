@@ -21,21 +21,21 @@ export const LoginScreen: React.FC<{}> = () => {
     const [userInput, setUserInput] = React.useState<IinputForm>({ password: '', email: "" })
     const [error, setError] = React.useState<string>("")
     // const [disable, setDisable] = React.useState<boolean>(false)
-    const { SignIn } = React.useContext(LayoutContext)
+    // const { SignIn } = React.useContext(LayoutContext)
 
 
     const submit = (e: React.FormEvent<HTMLElement>) => {
         e.preventDefault()
-        SignIn(userInput, (rsp: IResponse<IResponseLogin>) => {
-            if (rsp.status === true) {
-                history.replace(from);
-            }
-            else {
-                if (rsp.error.code === "incorrect") {
-                    setError("Email hoặc password không đúng")
-                }
-            }
-        })
+        // SignIn(userInput, (rsp: IResponse<IResponseLogin>) => {
+        //     if (rsp.status === true) {
+        //         history.replace(from);
+        //     }
+        //     else {
+        //         if (rsp.error.code === "incorrect") {
+        //             setError("Email hoặc password không đúng")
+        //         }
+        //     }
+        // })
     }
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {

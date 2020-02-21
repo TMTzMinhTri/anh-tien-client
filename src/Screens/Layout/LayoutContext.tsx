@@ -1,11 +1,12 @@
 import * as React from "react";
 import { signIn } from "../../Api/Service/auth";
 import { IPostSignIn } from "../../modal/response/auth";
+import { IResponseListUser } from "../../modal/response/listUser";
+import { getListBorrower } from "../../Api/Service/borrower";
 
 
 interface ILayoutContext {
-    SignIn: Function,
-    authenticated: boolean
+    listUser: IResponseListUser[]
 }
 
 export const LayoutContext = React.createContext({} as ILayoutContext)
@@ -13,21 +14,17 @@ export const LayoutContext = React.createContext({} as ILayoutContext)
 
 
 export default function (props: any) {
-    const [authenticated, setAuthenticated] = React.useState<boolean>(false)
+    const [page, setPage] = React.useState<number>(1)
+    const [listUser, setListUser] = React.useState<IResponseListUser[]>([])
 
-    const SignIn = (data: IPostSignIn, cb: Function) => {
-        signIn(data).then(rsp => {
-            if(rsp.status === true){
-                localStorage.setItem('auth_token', rsp.data.token)
-                setAuthenticated(true)
-            }
-            cb(rsp)
-        })
-    }
+
+    React.useEffect(() => {
+        getListBorrower().then(res => setListUser(res.data))
+    }, [page])
 
 
 
-    return <LayoutContext.Provider value={{ SignIn, authenticated }}>
+    return <LayoutContext.Provider value={{ listUser }}>
         {props.children}
     </LayoutContext.Provider>
 }

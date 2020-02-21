@@ -25,3 +25,7 @@
     border-top-left-radius: 0;
     overflow: scroll;
 }
+.note-board-input__container{
+    border: 1px solid;
+    border-top: none;
+}

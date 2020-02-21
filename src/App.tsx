@@ -22,11 +22,11 @@ const App: React.FC = () => {
             exact={true}
             component={Screens.ListUserScreen}
           />
-          <Route
+          {/* <Route
             path="/list-user/:userid"
             exact={true}
             component={Screens.DetailsUserScreen}
-          />
+          /> */}
         </Switch>
       </Router>
     </LayoutContextProvider>
