@@ -17,7 +17,7 @@ export const UserItem: React.SFC<IPropsUserItem> = React.memo(({ user }) => {
         const path = `list-user/${user.id}`
         history.push(path);
     }
-    return <Col xl="2">
+    return <Col xl="3">
         <Card className="p-2">
             <CardImg top width="100%" height="200" src={user.avata} alt="Card image cap" style={{ objectFit: "cover" }} />
             <CardBody>

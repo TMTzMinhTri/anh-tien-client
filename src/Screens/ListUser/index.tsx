@@ -11,7 +11,7 @@ export const ListUserScreen: React.FC<{}> = () => {
     const [openModalCreate, setOpenModalCreate] = React.useState<boolean>(false)
 
     React.useEffect(() => {
-        // getListBorrower(page).then(res => setListUser(res.data))
+        getListBorrower().then(res => setListUser(res.data))
     }, [page])
 
     const CreateSuccessUser = (data: IResponseListUser) => {

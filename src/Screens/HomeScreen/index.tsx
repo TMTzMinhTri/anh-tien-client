@@ -1,13 +1,11 @@
 import * as React from "react";
 import "./index.css";
 import { NoteBoard } from "./NoteBoard";
-import {
-  getListBorrower,
-  payTheMoney,
-  getListHistoryByDate
-} from "../../Api/Service/borrower";
+import { payTheMoney, getListHistoryByDate } from "../../Api/Service/borrower";
 import { LayoutContext } from "../Layout/LayoutContext";
 import { converDate, converDate_DDMMYYY } from "../../utils";
+import * as Components from "../../Components";
+import { Link, NavLink } from "react-router-dom";
 
 interface IHomeScreenContext {
   handleUserInput: Function;
@@ -24,6 +22,8 @@ export interface IListHistory {
 export const HomeScreenContext = React.createContext({} as IHomeScreenContext);
 
 export const HomeScreen: React.SFC<any> = () => {
+  let mount = false;
+  const { showToast } = Components.useToasts();
   const { listUser } = React.useContext(LayoutContext);
   const [listHistory, setListHistory] = React.useState<IListHistory[]>([]);
   const [date, setDate] = React.useState(new Date());
@@ -52,6 +52,7 @@ export const HomeScreen: React.SFC<any> = () => {
   }, []);
 
   React.useEffect(() => {
+    mount = true;
     if (listUser.length > 0) {
       const data = listUser
         .map(item => {
@@ -82,6 +83,7 @@ export const HomeScreen: React.SFC<any> = () => {
           price: 0,
           id: listHistory.length + 1
         });
+        showToast();
         setListHistory([userInput, ...listHistory]);
       }
     });
@@ -98,26 +100,15 @@ export const HomeScreen: React.SFC<any> = () => {
 
   return (
     <HomeScreenContext.Provider value={{ handleUserInput, createNewRow }}>
-      <div className="home-screen">
-        <div className="side-bar">
-          <ul>
-            <li>Sổ ngày</li>
-            <li>Sổ cái</li>
-            <li>danh sách người mượn</li>
-          </ul>
-        </div>
-        <div className="note-board">
-          <div className="note-board-title">
-            Sổ ngày: {converDate_DDMMYYY(date)}
-          </div>
-          <NoteBoard
-            listHistory={listHistory}
-            date={date}
-            userInput={userInput}
-            options={users}
-          />
-        </div>
+      <div className="note-board-title">
+        Sổ ngày: {converDate_DDMMYYY(date)}
       </div>
+      <NoteBoard
+        listHistory={listHistory}
+        date={date}
+        userInput={userInput}
+        options={users}
+      />
     </HomeScreenContext.Provider>
   );
 };

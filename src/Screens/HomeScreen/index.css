@@ -4,17 +4,7 @@
     display: flex;
     background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
-.side-bar {
-    width: 15%;
-    height: 100%;
-    background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
-    padding: 10px;
-}
-.note-board{
-    width: 85%;
-    height: 100%;
-    padding: 10px;
-}
+
 .note-board-title{
     font-style: italic;
     text-align: center;

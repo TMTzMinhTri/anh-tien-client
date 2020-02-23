@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./index.css";
-import { NoteRow } from "./NoteRow";
-import { Control } from "./Control";
+// import { NoteRow } from "./NoteRow";
+// import { Control } from "./Control";
 
 import Select from "react-select";
 import Cleave from "cleave.js/react";
@@ -15,12 +15,6 @@ const translate = {
   price: "Số tiền",
   note: "ghi chú"
 };
-
-// const options = [
-//   { value: "chocolate", label: "Chocolate" },
-//   { value: "strawberry", label: "Strawberry" },
-//   { value: "vanilla", label: "Vanilla" }
-// ];
 interface IProps {
   listHistory: IListHistory[];
   date: Date;

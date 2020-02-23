@@ -1,0 +1,10 @@
+.toast-container {
+    position: absolute;
+    z-index: 999;
+    top: 40px;
+    left: 45%;
+}
+.toast{
+    width: 300px;
+    animation-duration: .2s
+}
