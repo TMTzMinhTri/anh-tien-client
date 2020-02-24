@@ -1,88 +1,162 @@
-import * as React from 'react'
-import 'react-dropzone-uploader/dist/styles.css'
+import * as React from "react";
+import "react-dropzone-uploader/dist/styles.css";
 // import Dropzone, { ILayoutProps, IPreviewProps, IDropzoneProps, IFileWithMeta } from "react-dropzone-uploader";
 // import classnames from "classnames";
 import {
-    // Progress,
-    Modal, ModalHeader, ModalBody, Form, Row, Col, FormGroup, Label, ModalFooter, Button, Input
-} from 'reactstrap';
-import { IResponseAddress } from '../../../modal/response/address';
-import { getListDistrict, getListWard, createNewBorrower } from '../../../Api/Service/borrower';
-import Cleave from 'cleave.js/react';
-import './index.css'
-import { ListUserScreenContext } from '..';
+  // Progress,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Form,
+  Row,
+  Col,
+  FormGroup,
+  Label,
+  ModalFooter,
+  Button,
+  Input
+} from "reactstrap";
+import { IResponseAddress } from "../../../modal/response/address";
+import {
+  getListDistrict,
+  getListWard,
+  createNewBorrower,
+  updateBorrowerInfo
+} from "../../../Api/Service/borrower";
+import Cleave from "cleave.js/react";
+import "./index.css";
+import { ListUserScreenContext } from "..";
+import { IResponseListUser } from "../../../modal/response/listUser";
 
-interface IModalProps {
-    openModalCreate: boolean,
-    setOpenModalCreate: Function,
+interface IModalCreateContextProps {
+  openModal: Function;
 }
+const ModalCreateContext = React.createContext({} as IModalCreateContextProps);
 
-export const ModalCreate: React.SFC<IModalProps> = ({ openModalCreate, setOpenModalCreate }) => {
-    const { CreateSuccessUser } = React.useContext(ListUserScreenContext)
-    const [mount, setmount] = React.useState<boolean>(false)
-    const [districts, setDistricts] = React.useState<IResponseAddress[]>([])
-    const [wards, setWards] = React.useState<IResponseAddress[]>([])
-    const [address, setAddress] = React.useState<{ district: number, ward: number }>({ district: 0, ward: 0 })
-    // const [avata, setAvata] = React.useState<IFileWithMeta["meta"]>()
-    const [userSelect, SetUserSelect] = React.useState({
-        name: "", address: "", total: 0, phone_number: 0
-    })
-    const handleChange = (e: any) => {
-        const { name, value, rawValue } = e.target
-        if (name === "total") {
-            if (rawValue === "")
-                SetUserSelect({ ...userSelect, total: 0 })
-            else
-                SetUserSelect({ ...userSelect, total: rawValue })
+export const ModalCreate: React.SFC<{}> = ({ children }) => {
+  const [status, setStatus] = React.useState("create");
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const { CreateSuccessUser, UpdateSuccess } = React.useContext(
+    ListUserScreenContext
+  );
+  const [mount, setmount] = React.useState<boolean>(false);
+  const [districts, setDistricts] = React.useState<IResponseAddress[]>([]);
+  const [wards, setWards] = React.useState<IResponseAddress[]>([]);
 
-        } else {
-            SetUserSelect({ ...userSelect, [name]: value })
-        }
+  const [address, setAddress] = React.useState<{
+    district: number;
+    ward: number;
+  }>({ district: 0, ward: 0 });
+
+  const [userSelect, SetUserSelect] = React.useState({
+    id: null,
+    name: "",
+    address: "",
+    total: 0,
+    phone_number: "0"
+  });
+  const handleChange = (e: any) => {
+    const { name, value, rawValue } = e.target;
+    if (name === "total") {
+      if (rawValue === "") SetUserSelect({ ...userSelect, total: 0 });
+      else SetUserSelect({ ...userSelect, total: rawValue });
+    } else {
+      SetUserSelect({ ...userSelect, [name]: value });
     }
+  };
 
-    React.useEffect(() => {
-        getListDistrict().then(res => {
-            setDistricts(res.data)
-            setAddress({ ...address, district: res.data[0].id })
-            getListWard(res.data[0].id).then(rb => {
-                setWards(rb.data)
-                setAddress({ ...address, ward: rb.data[0].id })
-                setmount(true)
-            })
-        })
-    }, [])
+  React.useEffect(() => {
+    getListDistrict().then(res => {
+      setDistricts(res.data);
+      setAddress({ ...address, district: res.data[0].id });
+      getListWard(res.data[0].id).then(rb => {
+        setWards(rb.data);
+        setAddress({ ...address, ward: rb.data[0].id });
+        setmount(true);
+      });
+    });
+  }, []);
 
-    React.useEffect(() => {
-        if (mount === true) {
-            getListWard(address.district).then(rb => {
-                setWards(rb.data)
-                setAddress({ ...address, ward: rb.data[0].id })
-            })
-        }
-    }, [address.district])
-
-    const create = () => {
-        const data = {
-            name: userSelect.name,
-            total: userSelect.total,
-            phone_number: userSelect.phone_number,
-            address: userSelect.address,
-            // avata: avata,
-            district: address.district,
-            ward: address.ward
-        }
-        createNewBorrower(data).then(res => {
-            if (res.status === true) {
-                CreateSuccessUser(res.data)
-            }
-        })
+  React.useEffect(() => {
+    if (mount === true) {
+      getListWard(address.district).then(rb => {
+        setWards(rb.data);
+        setAddress({ ...address, ward: rb.data[0].id });
+      });
     }
-    // const getUploadParams: IDropzoneProps['getUploadParams'] = () => ({ url: 'https://httpbin.org/post' })
-    return <Modal isOpen={openModalCreate} toggle={() => setOpenModalCreate(!openModalCreate)} size="lg">
-        <ModalHeader toggle={() => setOpenModalCreate(!openModalCreate)}>Tạo mới</ModalHeader>
+  }, [address.district]);
+
+  const create = () => {
+    const data = {
+      name: userSelect.name,
+      total: userSelect.total,
+      phone_number: userSelect.phone_number,
+      address: userSelect.address,
+      // avata: avata,
+      district: address.district,
+      ward: address.ward
+    };
+    createNewBorrower(data).then(res => {
+      if (res.status === true) {
+        CreateSuccessUser(res.data, () => {
+          setIsOpen(false);
+        });
+      }
+    });
+  };
+  const update = () => {
+    const data = {
+      name: userSelect.name,
+      total: userSelect.total,
+      phone_number: userSelect.phone_number,
+      address: userSelect.address,
+      district: address.district,
+      ward: address.ward
+    };
+    updateBorrowerInfo(userSelect.id, data).then(rsp => {
+      UpdateSuccess(rsp.data, () => {
+        setIsOpen(false);
+      });
+    });
+  };
+  const openModal = (visible: boolean, info?: IResponseListUser) => {
+    if (info) {
+      SetUserSelect({
+        name: info.name,
+        phone_number: info.phone_number,
+        total: info.total,
+        address: info.address,
+        id: info.id
+      });
+      setAddress({
+        ...address,
+        ward: info.ward,
+        district: info.district
+      });
+      setStatus("edit");
+      setIsOpen(visible);
+    } else {
+      setIsOpen(visible);
+      setStatus("create");
+      SetUserSelect({
+        id: null,
+        name: "",
+        address: "",
+        total: 0,
+        phone_number: "0"
+      });
+    }
+  };
+  // const getUploadParams: IDropzoneProps['getUploadParams'] = () => ({ url: 'https://httpbin.org/post' })
+  return (
+    <ModalCreateContext.Provider value={{ openModal }}>
+      <Modal isOpen={isOpen} toggle={() => openModal(!isOpen)} size="lg">
+        <ModalHeader toggle={() => openModal(!isOpen)}>
+          {status === "create" ? "Tạo mới" : "Cập nhật"}
+        </ModalHeader>
         <ModalBody>
-            <Form>
-                {/* <Row>
+          <Form>
+            {/* <Row>
                     <Col md={12}>
                         <Dropzone
                             getUploadParams={getUploadParams}
@@ -100,74 +174,139 @@ export const ModalCreate: React.SFC<IModalProps> = ({ openModalCreate, setOpenMo
                         />
                     </Col>
                 </Row> */}
-                <Row form>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label for="name">Họ tên</Label>
-                            <Input type="text" name="name" id="name" placeholder="Họ tên người mượn tiền" onChange={handleChange} />
-                        </FormGroup>
-                    </Col>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label for="phone_number">Số điện thoại</Label>
-                            <Input type="text" name="phone_number" id="phone_number" placeholder="Số điện thoại" onChange={handleChange} />
-                        </FormGroup>
-                    </Col>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label for="phone_number">Số tiền mượn</Label>
-                            <Cleave
-                                name="total"
-                                className="form-control"
-                                placeholder="Nhập số tiền"
-                                options={{ numeral: true, numeralThousandsGroupStyle: 'thousand' }}
-                                onChange={handleChange} />
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row form>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label for="exampleAddress">Address</Label>
-                            <Input type="text" name="address" id="exampleAddress" placeholder="1234 Main St" onChange={handleChange} />
-                        </FormGroup>
-                    </Col>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label for="district">Quận</Label>
-                            <Input
-                                type="select"
-                                name="district"
-                                id="district"
-                                onChange={(event) => setAddress({ ...address, district: parseInt(event.target.value) })}
-                                value={address.district} >
-                                {districts.length > 0 && districts.map((district, index) => <option value={district.id} key={`district_item_${index}`}>{district.name}</option>)}
-                            </Input>
-                        </FormGroup>
-                    </Col>
-                    <Col md={4}>
-                        <FormGroup>
-                            <Label for="ward">Phường</Label>
-                            <Input
-                                type="select"
-                                name="ward"
-                                id="ward"
-                                value={address.ward}
-                                onChange={(event) => setAddress({ ...address, ward: parseInt(event.target.value) })}>
-                                {wards.length > 0 && wards.map((ward, index) => <option value={ward.id} key={`ward_item_${index}`} >{ward.name}</option>)}
-                            </Input>
-                        </FormGroup>
-                    </Col>
-                </Row>
-            </Form>
+            <Row form>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="name">Họ tên</Label>
+                  <Input
+                    type="text"
+                    name="name"
+                    value={userSelect.name}
+                    id="name"
+                    placeholder="Họ tên người mượn tiền"
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="phone_number">Số điện thoại</Label>
+                  <Input
+                    type="text"
+                    name="phone_number"
+                    id="phone_number"
+                    value={userSelect.phone_number}
+                    placeholder="Số điện thoại"
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="phone_number">Số tiền mượn</Label>
+                  <Cleave
+                    name="total"
+                    className="form-control"
+                    placeholder="Nhập số tiền"
+                    value={userSelect.total}
+                    options={{
+                      numeral: true,
+                      numeralThousandsGroupStyle: "thousand"
+                    }}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row form>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="exampleAddress">Địa chỉ</Label>
+                  <Input
+                    type="text"
+                    name="address"
+                    id="exampleAddress"
+                    value={userSelect.address}
+                    placeholder="1234 Main St"
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="district">Quận</Label>
+                  <Input
+                    type="select"
+                    name="district"
+                    id="district"
+                    onChange={event =>
+                      setAddress({
+                        ...address,
+                        district: parseInt(event.target.value)
+                      })
+                    }
+                    value={address.district}
+                  >
+                    {districts.length > 0 &&
+                      districts.map((district, index) => (
+                        <option
+                          value={district.id}
+                          key={`district_item_${index}`}
+                        >
+                          {district.name}
+                        </option>
+                      ))}
+                  </Input>
+                </FormGroup>
+              </Col>
+              <Col md={4}>
+                <FormGroup>
+                  <Label for="ward">Phường</Label>
+                  <Input
+                    type="select"
+                    name="ward"
+                    id="ward"
+                    value={address.ward}
+                    onChange={event =>
+                      setAddress({
+                        ...address,
+                        ward: parseInt(event.target.value)
+                      })
+                    }
+                  >
+                    {wards.length > 0 &&
+                      wards.map((ward, index) => (
+                        <option value={ward.id} key={`ward_item_${index}`}>
+                          {ward.name}
+                        </option>
+                      ))}
+                  </Input>
+                </FormGroup>
+              </Col>
+            </Row>
+          </Form>
         </ModalBody>
         <ModalFooter>
-            <Button color="primary" onClick={create}>Tạo mới</Button>{' '}
-            <Button color="secondary" onClick={() => setOpenModalCreate(false)} >Huỷ</Button>
+          {status === "create" ? (
+            <Button color="primary" onClick={create}>
+              Tạo mới
+            </Button>
+          ) : (
+            <Button color="primary" onClick={update}>
+              Cập nhật
+            </Button>
+          )}
+          <Button color="secondary" onClick={() => openModal(false)}>
+            Huỷ
+          </Button>
         </ModalFooter>
-    </Modal>
-}
+      </Modal>
+      {children}
+    </ModalCreateContext.Provider>
+  );
+};
 
+export const useModal = () => React.useContext(ModalCreateContext);
 
 // const Layout = ({ input, previews, submitButton, dropzoneProps, files, extra: { maxFiles } }: ILayoutProps) => {
 //     return (<React.Fragment>

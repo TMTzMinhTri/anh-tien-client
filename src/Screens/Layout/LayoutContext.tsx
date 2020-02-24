@@ -10,7 +10,6 @@ interface ILayoutContext {
 export const LayoutContext = React.createContext({} as ILayoutContext);
 
 export default function(props: any) {
-  const [page, setPage] = React.useState<number>(1);
   const [listUser, setListUser] = React.useState<IResponseListUser[]>([]);
 
   React.useEffect(() => {

@@ -1,10 +1,7 @@
 import React from 'react';
 import './index.css';
-import { useLocation, useHistory } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input, Container, Alert } from 'reactstrap';
-import { LayoutContext } from '../Layout/LayoutContext';
-import { IResponse } from '../../Api';
-import { IResponseLogin } from '../../modal/response/auth';
 
 interface IinputForm {
     email: string,
@@ -14,9 +11,9 @@ interface IinputForm {
 
 export const LoginScreen: React.FC<{}> = () => {
     const that = React.useRef(null)
-    let history = useHistory();
-    let location = useLocation();
-    let from  = location.state || { from: { pathname: "/" } };
+    // let history = useHistory();
+    // let location = useLocation();
+    // let from  = location.state || { from: { pathname: "/" } };
 
     const [userInput, setUserInput] = React.useState<IinputForm>({ password: '', email: "" })
     const [error, setError] = React.useState<string>("")

@@ -1,18 +1,13 @@
 import * as React from "react";
 import { Row, Input, Button, Col, Form, FormGroup, Label } from "reactstrap";
-import { ModalCreate } from "../PopupCreateUser";
+import { useModal } from "../PopupCreateUser";
 import "./index.css";
-import classnames from "classnames";
-interface IProps {
-  setOpenModalCreate: Function;
-  openModalCreate: boolean;
-}
+// import classnames from "classnames";
+interface IProps {}
 
-export const Header: React.FC<IProps> = ({
-  setOpenModalCreate,
-  openModalCreate
-}) => {
+export const Header: React.FC<IProps> = () => {
   const [status, setStatus] = React.useState<boolean>(false);
+  const { openModal } = useModal();
   React.useEffect(() => {
     window.addEventListener("scroll", handleEventScroll);
     return () => {
@@ -31,10 +26,10 @@ export const Header: React.FC<IProps> = ({
   return (
     <React.Fragment>
       <div
-        // className={classnames("header animated", {
-        //   slideInDown: status === true,
-        //   slideInUp: status === false
-        // })}
+      // className={classnames("header animated", {
+      //   slideInDown: status === true,
+      //   slideInUp: status === false
+      // })}
       >
         <Row>
           <Col md={12} className="d-flex justify-content-lg-between">
@@ -52,18 +47,12 @@ export const Header: React.FC<IProps> = ({
               </FormGroup>
               <Button>Submit</Button>
             </Form>
-            <Button color="primary" onClick={() => setOpenModalCreate(true)}>
+            <Button color="primary" onClick={() => openModal(true)}>
               Tạo mới
             </Button>
           </Col>
         </Row>
       </div>
-      {openModalCreate && (
-        <ModalCreate
-          openModalCreate={openModalCreate}
-          setOpenModalCreate={setOpenModalCreate}
-        />
-      )}
     </React.Fragment>
   );
 };

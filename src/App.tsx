@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Router, Redirect } from "react-router-dom";
+import { Route, Switch, Router } from "react-router-dom";
 import "./App.css";
 import { createBrowserHistory } from "history";
 import * as Screens from "./Screens";

@@ -37,3 +37,16 @@ export const getListHistoryByDate = (from: string) => {
   const path = `/api/list-history-by-date?from=${from}`;
   return Api.Get<any>(path);
 };
+
+export const getBorrowerDeleted =() => {
+  
+}
+export const updateBorrowerInfo = (user_id: string, body) => {
+  const path = `/api/updateBorrowerInfo?user_id=${user_id}`;
+  return Api.PUT<any>(path, body);
+};
+
+export const deleteBorrowerInfo = (user_id: string) => {
+  const path = `/api/deleteBorrowerInfo?user_id=${user_id}`;
+  return Api.DELETE<any>(path);
+};

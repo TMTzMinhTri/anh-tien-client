@@ -5,7 +5,6 @@ import { payTheMoney, getListHistoryByDate } from "../../Api/Service/borrower";
 import { LayoutContext } from "../Layout/LayoutContext";
 import { converDate, converDate_DDMMYYY } from "../../utils";
 import * as Components from "../../Components";
-import { Link, NavLink } from "react-router-dom";
 
 interface IHomeScreenContext {
   handleUserInput: Function;
@@ -22,11 +21,10 @@ export interface IListHistory {
 export const HomeScreenContext = React.createContext({} as IHomeScreenContext);
 
 export const HomeScreen: React.SFC<any> = () => {
-  let mount = false;
   const { showToast } = Components.useToasts();
   const { listUser } = React.useContext(LayoutContext);
   const [listHistory, setListHistory] = React.useState<IListHistory[]>([]);
-  const [date, setDate] = React.useState(new Date());
+  const [date] = React.useState(new Date());
   const [users, setUsers] = React.useState([]);
 
   const [userInput, setUserInput] = React.useState<IListHistory>({
@@ -49,10 +47,9 @@ export const HomeScreen: React.SFC<any> = () => {
         setListHistory(data);
       }
     });
-  }, []);
+  }, [date]);
 
   React.useEffect(() => {
-    mount = true;
     if (listUser.length > 0) {
       const data = listUser
         .map(item => {
@@ -95,7 +92,7 @@ export const HomeScreen: React.SFC<any> = () => {
         setUserInput({ ...userInput, price: parseInt(value) });
       else setUserInput({ ...userInput, [name]: value });
     },
-    [userInput.name, userInput.note, userInput.price]
+    [userInput]
   );
 
   return (
