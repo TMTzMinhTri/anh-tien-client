@@ -1,14 +1,20 @@
 import * as React from "react";
 import "./index.css";
 import { NoteBoard } from "./NoteBoard";
-import { payTheMoney, getListHistoryByDate } from "../../Api/Service/borrower";
+import {
+  payTheMoney,
+  getListHistoryByDate,
+  getListBorrower
+} from "../../Api/Service/borrower";
 import { LayoutContext } from "../Layout/LayoutContext";
 import { converDate, converDate_DDMMYYY } from "../../utils";
 import * as Components from "../../Components";
+import { IResponseListUser } from "../../modal/response/listUser";
 
 interface IHomeScreenContext {
   handleUserInput: Function;
   createNewRow: Function;
+  changeDate: Function;
 }
 
 export interface IListHistory {
@@ -21,10 +27,12 @@ export interface IListHistory {
 export const HomeScreenContext = React.createContext({} as IHomeScreenContext);
 
 export const HomeScreen: React.SFC<any> = () => {
+  const [listUser, setListUser] = React.useState<IResponseListUser[]>([]);
+
   const { showToast } = Components.useToasts();
-  const { listUser } = React.useContext(LayoutContext);
+  // const { listUser } = React.useContext(LayoutContext);
   const [listHistory, setListHistory] = React.useState<IListHistory[]>([]);
-  const [date] = React.useState(new Date());
+  const [date, setDate] = React.useState(new Date());
   const [users, setUsers] = React.useState([]);
 
   const [userInput, setUserInput] = React.useState<IListHistory>({
@@ -34,6 +42,7 @@ export const HomeScreen: React.SFC<any> = () => {
     id: listHistory.length + 1
   });
   React.useEffect(() => {
+    getListBorrower().then(res => setListUser(res.data));
     getListHistoryByDate(converDate(date)).then(rsp => {
       if (rsp.status === true) {
         const data = rsp.data.map(it => {
@@ -51,20 +60,22 @@ export const HomeScreen: React.SFC<any> = () => {
 
   React.useEffect(() => {
     if (listUser.length > 0) {
+      const ex = listHistory.map(history => {
+        return history.name.value;
+      });
       const data = listUser
+        .filter(user => {
+          return !ex.includes(parseInt(user.id));
+        })
         .map(item => {
           return {
             value: item.id,
             label: item.name
           };
-        })
-        .filter(value => {
-          const ex = listUser.find(it => value.value === it.id);
-          return ex;
         });
       setUsers(data);
     }
-  }, [listUser]);
+  }, [listUser, listHistory]);
 
   const createNewRow = () => {
     payTheMoney(userInput.name.value, {
@@ -94,9 +105,13 @@ export const HomeScreen: React.SFC<any> = () => {
     },
     [userInput]
   );
-
+  const changeDate = value => {
+    setDate(value);
+  };
   return (
-    <HomeScreenContext.Provider value={{ handleUserInput, createNewRow }}>
+    <HomeScreenContext.Provider
+      value={{ handleUserInput, createNewRow, changeDate }}
+    >
       <div className="note-board-title">
         Sổ ngày: {converDate_DDMMYYY(date)}
       </div>

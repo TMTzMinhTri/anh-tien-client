@@ -1,23 +1,21 @@
 import * as React from "react";
-import { IResponseListUser } from "../../modal/response/listUser";
-import { getListBorrower } from "../../Api/Service/borrower";
 import { NavLink, Link } from "react-router-dom";
 import './index.css'
 interface ILayoutContext {
-  listUser: IResponseListUser[];
+
 }
 
 export const LayoutContext = React.createContext({} as ILayoutContext);
 
 export default function(props: any) {
-  const [listUser, setListUser] = React.useState<IResponseListUser[]>([]);
+  // const [listUser, setListUser] = React.useState<IResponseListUser[]>([]);
 
-  React.useEffect(() => {
-    getListBorrower().then(res => setListUser(res.data));
-  }, []);
+  // React.useEffect(() => {
+  //   getListBorrower().then(res => setListUser(res.data));
+  // }, []);
 
   return (
-    <LayoutContext.Provider value={{ listUser }}>
+    <LayoutContext.Provider value={{ }}>
       <div className="home-screen">
         {renderSideBar()}
         <div className="side-contain">{props.children}</div>

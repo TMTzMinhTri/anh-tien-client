@@ -33,7 +33,7 @@ export const Header: React.FC<IProps> = () => {
       >
         <Row>
           <Col md={12} className="d-flex justify-content-lg-between">
-            <Form inline>
+            {/* <Form inline>
               <FormGroup>
                 <Label for="exampleEmail" hidden>
                   Email
@@ -46,7 +46,7 @@ export const Header: React.FC<IProps> = () => {
                 />
               </FormGroup>
               <Button>Submit</Button>
-            </Form>
+            </Form> */}
             <Button color="primary" onClick={() => openModal(true)}>
               Tạo mới
             </Button>

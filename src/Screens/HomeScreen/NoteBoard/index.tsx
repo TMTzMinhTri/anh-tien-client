@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./index.css";
 // import { NoteRow } from "./NoteRow";
-// import { Control } from "./Control";
+import { Control } from "./Control";
 
 import Select from "react-select";
 import Cleave from "cleave.js/react";
@@ -103,7 +103,7 @@ export const NoteBoard: React.SFC<IProps> = ({
 
   return (
     <div className="note-board__container">
-      {/* <Control date={date} /> */}
+      <Control date={date} />
       {renderTitle}
       {renderInputContainer}
       {renderContent()}
