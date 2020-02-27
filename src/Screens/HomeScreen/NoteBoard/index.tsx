@@ -101,13 +101,24 @@ export const NoteBoard: React.SFC<IProps> = ({
     </div>
   );
 
+  // const total = listHistory.map(item => item.price);
+  // const data = total.reduce(
+  //   (accumulator, currentValue) => accumulator + currentValue,
+  //   0
+  // );
+  const total = listHistory.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.price;
+  }, 0);
+
   return (
     <div className="note-board__container">
       <Control date={date} />
       {renderTitle}
       {renderInputContainer}
       {renderContent()}
-      <div className="d-flex justify-content-end">Tổng tiền: 10000000</div>
+      <div className="d-flex justify-content-end">
+        Tổng tiền: {formatCurrency(total)}
+      </div>
     </div>
   );
 };
