@@ -4,4 +4,4 @@ COPY package.json package.json
 RUN npm install
 COPY . .
 RUN npm run build
-CMD pm2 serve -s build
+CMD serve -p $PORT -s build
