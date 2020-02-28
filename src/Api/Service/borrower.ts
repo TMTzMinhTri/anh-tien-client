@@ -1,6 +1,7 @@
 import { Api } from "..";
 import { IResponseListUser } from "../../modal/response/listUser";
 import { IResponseAddress } from "../../modal/response/address";
+import { IListHistory } from "../../Screens/HomeScreen";
 
 export const getListBorrower = () => {
   const path = `/api/getAllBorrowInfo`;
@@ -50,4 +51,9 @@ export const updateBorrowerInfo = (user_id: string, body) => {
 export const deleteBorrowerInfo = (user_id: string) => {
   const path = `/api/deleteBorrowerInfo?user_id=${user_id}`;
   return Api.DELETE<any>(path);
+};
+
+export const updateUserPay = (payInfo: IListHistory) => {
+  const path = `/api/updateUserPay`;
+  return Api.PUT(path, { payInfo });
 };

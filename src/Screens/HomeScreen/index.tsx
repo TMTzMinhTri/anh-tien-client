@@ -6,7 +6,6 @@ import {
   getListHistoryByDate,
   getListBorrower
 } from "../../Api/Service/borrower";
-import { LayoutContext } from "../Layout/LayoutContext";
 import { converDate, converDate_DDMMYYY } from "../../utils";
 import * as Components from "../../Components";
 import { IResponseListUser } from "../../modal/response/listUser";
@@ -15,6 +14,7 @@ interface IHomeScreenContext {
   handleUserInput: Function;
   createNewRow: Function;
   changeDate: Function;
+  handleUserUpdatePay: Function;
 }
 
 export interface IListHistory {
@@ -108,9 +108,15 @@ export const HomeScreen: React.SFC<any> = () => {
   const changeDate = value => {
     setDate(value);
   };
+  const handleUserUpdatePay = (index, history, callback: Function) => {
+    listHistory[index] = history
+    setListHistory(listHistory);
+    showToast();
+    callback();
+  };
   return (
     <HomeScreenContext.Provider
-      value={{ handleUserInput, createNewRow, changeDate }}
+      value={{ handleUserInput, createNewRow, changeDate, handleUserUpdatePay }}
     >
       <div className="note-board-title">
         Sổ ngày: {converDate_DDMMYYY(date)}

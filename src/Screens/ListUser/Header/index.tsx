@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Row, Input, Button, Col, Form, FormGroup, Label } from "reactstrap";
+import { Row,Button, Col } from "reactstrap";
 import { useModal } from "../PopupCreateUser";
 import "./index.css";
 // import classnames from "classnames";
