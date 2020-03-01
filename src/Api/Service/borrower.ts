@@ -57,3 +57,8 @@ export const updateUserPay = (payInfo: IListHistory) => {
   const path = `/api/updateUserPay`;
   return Api.PUT(path, { payInfo });
 };
+
+export const deleteUserPay = (id: string) => {
+  const path = `/api/deleteUserPay/${id}`;
+  return Api.DELETE(path);
+};

@@ -12,7 +12,7 @@ export interface IResponse<T> {
 
 
 export const Api = {
-   url: "http://192.168.1.47:1337",
+    url: "http://localhost:5000",
     async Get<T>(path: string) {
         const url = `${this.url}${path}`
         // const token = await db.table('authToken').toArray()

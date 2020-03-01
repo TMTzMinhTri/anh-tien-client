@@ -30,7 +30,7 @@ export const UserItem: React.SFC<IPropsUserItem> = React.memo(
     // };
     const deleteUser = () => {
       if (window.confirm("Chắc chưa")) {
-        deleteBorrowerInfo(user.id).then(rsp => {
+        deleteBorrowerInfo(user.id.toString()).then(rsp => {
           DeleteSuccess(rsp.data);
         });
       }

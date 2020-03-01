@@ -15,6 +15,7 @@ interface IHomeScreenContext {
   createNewRow: Function;
   changeDate: Function;
   handleUserUpdatePay: Function;
+  handleDeleteUserPay: Function;
 }
 
 export interface IListHistory {
@@ -22,6 +23,11 @@ export interface IListHistory {
   name: { value: number; label: string };
   price: number;
   note: string;
+}
+
+interface InameConverd {
+  value: number;
+  label: string;
 }
 
 export const HomeScreenContext = React.createContext({} as IHomeScreenContext);
@@ -33,7 +39,7 @@ export const HomeScreen: React.SFC<any> = () => {
   // const { listUser } = React.useContext(LayoutContext);
   const [listHistory, setListHistory] = React.useState<IListHistory[]>([]);
   const [date, setDate] = React.useState(new Date());
-  const [users, setUsers] = React.useState([]);
+  const [users, setUsers] = React.useState<InameConverd[]>([]);
 
   const [userInput, setUserInput] = React.useState<IListHistory>({
     name: { label: "", value: 0 },
@@ -63,9 +69,9 @@ export const HomeScreen: React.SFC<any> = () => {
       const ex = listHistory.map(history => {
         return history.name.value;
       });
-      const data = listUser
+      const data: InameConverd[] = listUser
         .filter(user => {
-          return !ex.includes(parseInt(user.id));
+          return !ex.includes(user.id);
         })
         .map(item => {
           return {
@@ -109,14 +115,26 @@ export const HomeScreen: React.SFC<any> = () => {
     setDate(value);
   };
   const handleUserUpdatePay = (index, history, callback: Function) => {
-    listHistory[index] = history
+    listHistory[index] = history;
     setListHistory(listHistory);
     showToast();
     callback();
   };
+  const handleDeleteUserPay = (index, userInfo: InameConverd) => {
+    listHistory.splice(index, 1);
+    setUsers([...users, userInfo]);
+    setListHistory(listHistory);
+    showToast();
+  };
   return (
     <HomeScreenContext.Provider
-      value={{ handleUserInput, createNewRow, changeDate, handleUserUpdatePay }}
+      value={{
+        handleUserInput,
+        createNewRow,
+        changeDate,
+        handleUserUpdatePay,
+        handleDeleteUserPay
+      }}
     >
       <div className="note-board-title">
         Sổ ngày: {converDate_DDMMYYY(date)}

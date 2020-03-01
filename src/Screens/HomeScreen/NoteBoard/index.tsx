@@ -8,7 +8,7 @@ import Cleave from "cleave.js/react";
 import { Input, Button } from "reactstrap";
 import { HomeScreenContext, IListHistory } from "..";
 import { formatCurrency } from "../../../utils";
-import { updateUserPay } from "../../../Api/Service/borrower";
+import { updateUserPay, deleteUserPay } from "../../../Api/Service/borrower";
 
 const listColumn = ["name", "price", "note"];
 const translate = {
@@ -20,7 +20,7 @@ interface IProps {
   listHistory: IListHistory[];
   date: Date;
   userInput: IListHistory;
-  options: { value: string; label: string }[];
+  options: { value: number; label: string }[];
 }
 
 export const NoteBoard: React.SFC<IProps> = ({
@@ -32,7 +32,8 @@ export const NoteBoard: React.SFC<IProps> = ({
   const {
     handleUserInput,
     createNewRow,
-    handleUserUpdatePay
+    handleUserUpdatePay,
+    handleDeleteUserPay
   } = React.useContext(HomeScreenContext);
   const [edit, setEdit] = React.useState<{
     history: IListHistory;
@@ -82,6 +83,16 @@ export const NoteBoard: React.SFC<IProps> = ({
       }
     });
   };
+  const DeleteUserPay = (history, index) => {
+    console.log(history);
+    if (window.confirm("Chắc chưa")) {
+      deleteUserPay(history.id).then(rsp => {
+        if (rsp.status === true) {
+          handleDeleteUserPay(index, history.name);
+        }
+      });
+    }
+  };
 
   const renderContent = () => {
     return (
@@ -125,7 +136,13 @@ export const NoteBoard: React.SFC<IProps> = ({
                   <div className="col-4">{history.note}</div>
                   <div className="col-2">
                     <Button onClick={() => handleEdit(history, index)}>
-                      Edit
+                      Chỉnh sửa
+                    </Button>{" "}
+                    <Button
+                      color="danger"
+                      onClick={() => DeleteUserPay(history, index)}
+                    >
+                      Xoá
                     </Button>
                   </div>
                 </React.Fragment>
