@@ -1,9 +1,8 @@
 import * as React from "react";
-import { NavLink, Link } from "react-router-dom";
-import './index.css'
-interface ILayoutContext {
-
-}
+import { NavLink } from "react-router-dom";
+import "./index.css";
+import { Navbar, Nav, NavItem } from "reactstrap";
+interface ILayoutContext {}
 
 export const LayoutContext = React.createContext({} as ILayoutContext);
 
@@ -15,7 +14,7 @@ export default function(props: any) {
   // }, []);
 
   return (
-    <LayoutContext.Provider value={{ }}>
+    <LayoutContext.Provider value={{}}>
       <div className="home-screen">
         {renderSideBar()}
         <div className="side-contain">{props.children}</div>
@@ -27,14 +26,22 @@ export default function(props: any) {
 const renderSideBar = () => {
   return (
     <div className="side-bar">
-      <ul>
-        <li>
-          <NavLink to="/"> Sổ ngày</NavLink>
-        </li>
-        <li>
-          <Link to="/list-user"> danh sách người mượn</Link>
-        </li>
-      </ul>
+        <Nav className="" navbar>
+          {page.map(i => {
+            return (
+              <NavItem key={i.id}>
+                <NavLink exact to={i.link} className="nav-link" activeClassName="active">
+                  {i.name}
+                </NavLink>
+              </NavItem>
+            );
+          })}
+        </Nav>
     </div>
   );
 };
+
+const page = [
+  { id: 1, name: "Sổ ngày", link: "/" },
+  { id: 2, name: "danh sách người mượn", link: "/list-user" }
+];

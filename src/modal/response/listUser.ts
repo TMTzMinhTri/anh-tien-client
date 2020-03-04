@@ -10,6 +10,7 @@ export interface IResponseListUser {
   created_at: Date;
   updated_at: Date;
   history?: Ihistory[];
+  note: string;
 }
 interface Ihistory {
   status: boolean;

@@ -9,3 +9,9 @@
     background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
     padding: 10px;
 }
+.nav-link{
+    color: #555;
+}
+.nav-link.active {
+    color: #fff;
+}

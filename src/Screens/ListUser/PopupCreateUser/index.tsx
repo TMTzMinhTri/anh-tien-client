@@ -53,7 +53,8 @@ export const ModalCreate: React.SFC<{}> = ({ children }) => {
     name: "",
     address: "",
     total: 0,
-    phone_number: "0"
+    phone_number: "0",
+    note: ""
   });
   const handleChange = (e: any) => {
     const { name, value, rawValue } = e.target;
@@ -94,7 +95,8 @@ export const ModalCreate: React.SFC<{}> = ({ children }) => {
       address: userSelect.address,
       // avata: avata,
       district: address.district,
-      ward: address.ward
+      ward: address.ward,
+      note: userSelect.note
     };
     createNewBorrower(data).then(res => {
       if (res.status === true) {
@@ -126,7 +128,8 @@ export const ModalCreate: React.SFC<{}> = ({ children }) => {
         phone_number: info.phone_number,
         total: info.total,
         address: info.address,
-        id: info.id
+        id: info.id,
+        note: info.note ? info.note : ""
       });
       setAddress({
         ...address,
@@ -143,7 +146,8 @@ export const ModalCreate: React.SFC<{}> = ({ children }) => {
         name: "",
         address: "",
         total: 0,
-        phone_number: "0"
+        phone_number: "0",
+        note: ""
       });
     }
   };
@@ -281,6 +285,18 @@ export const ModalCreate: React.SFC<{}> = ({ children }) => {
                         </option>
                       ))}
                   </Input>
+                </FormGroup>
+              </Col>
+              <Col md={12}>
+                <FormGroup>
+                  <Label for="note">Ghi chú</Label>
+                  <Input
+                    type="textarea"
+                    name="note"
+                    id="note"
+                    value={userSelect.note}
+                    onChange={handleChange}
+                  />
                 </FormGroup>
               </Col>
             </Row>
